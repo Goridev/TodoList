@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/spinner_text_state"
+    android:textAlignment="center"
+    android:textSize="@dimen/dimen_15sp"
+    android:text="@string/generic_state_task_recycler"
+    android:textColor="@color/red"
+    android:fontFamily="@font/montserrat_medium"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dimen_15dp"/>

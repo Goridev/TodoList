@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">TodoList</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="main_fragment_label">Main Fragment</string>
+    <string name="edit_main_create_title_hint">Titre</string>
+    <string name="edit_main_create_text_hint">Tâche</string>
+    <string name="button_main_create_task">Create</string>
+    <string name="text_title_create">Créer une nouvelle tâches</string>
+    <string name="generic_title_task_recycler">Generic Title task</string>
+    <string name="generic_task_recycler">Generic Task</string>
+    <string name="generic_created_date_task_recycler">Generic created date</string>
+    <string name="generic_state_task_recycler">Generic state</string>
+    <string name="some_text"><![CDATA[<h1><i><b>Nouveau Intent</b></i></h1> ]]></string>
+    <string-array name="state_task">
+        <item>Todo</item>
+        <item>WorkInProgress</item>
+        <item>Done</item>
+        <item>Feedback</item>
+    </string-array>
+</resources>
