@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ import io.gghf.todolist.R;
 import io.gghf.todolist.models.TaskAdapter;
 import io.gghf.todolist.models.TaskLiveData;
 
-public class FragmentDialogDetails extends DialogFragment implements AdapterView.OnItemSelectedListener {
+public class FragmentDialogDetails extends DialogFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private TaskAdapter adapter;
     private TaskLiveData taskLiveData;
@@ -33,6 +34,10 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
     private TextView text;
     private TextView created_date;
     private Spinner state;
+
+    private ImageView trashTask;
+    private ImageView reminderTask;
+    private ImageView editTask;
 
     private ArrayAdapter<CharSequence> arrayAdapter;
 
@@ -83,6 +88,9 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
         text = root.findViewById(R.id.details_text_task);
         created_date = root.findViewById(R.id.details_created_date_task);
         state = root.findViewById(R.id.details_state_task);
+        trashTask = root.findViewById(R.id.details_trash_task);
+        editTask = root.findViewById(R.id.details_edit_task);
+        reminderTask = root.findViewById(R.id.details_reminder_task);
         arrayAdapter = ArrayAdapter.createFromResource(getContext(),R.array.state_task,R.layout.fragment_dialog_details_spinner_state);
         arrayAdapter.setDropDownViewResource(R.layout.fragment_dialog_details_spinner_state);
         state.setAdapter(arrayAdapter);
@@ -96,6 +104,9 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
         text.setText(adapter.task.text);
         created_date.setText(taskLiveData.convertTimestamp(adapter.task.createdDate));
         state.setOnItemSelectedListener(this);
+        trashTask.setOnClickListener(this);
+        reminderTask.setOnClickListener(this);
+        editTask.setOnClickListener(this);
         if(adapter.task.state.length() > 0){
             state.setSelection(arrayAdapter.getPosition(adapter.task.state),true);
         }
@@ -110,6 +121,22 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
     public void onNothingSelected(AdapterView<?> adapterView) {
         if(adapter.task.state.length() > 0){
             state.setSelection(arrayAdapter.getPosition(adapter.task.state),true);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.details_reminder_task:
+                break;
+            case R.id.details_trash_task:
+                taskLiveData.removeTasks(text.getText().toString());
+                dismiss();
+                break;
+            case R.id.details_edit_task:
+                break;
+            default:
+                break;
         }
     }
 }
