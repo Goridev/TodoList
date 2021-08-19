@@ -128,6 +128,8 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.details_reminder_task:
+                FragmentDialogDetailsCalendar calendar = FragmentDialogDetailsCalendar.newInstance(adapter);
+                calendar.show(getParentFragmentManager(),"calendar");
                 break;
             case R.id.details_trash_task:
                 taskLiveData.removeTasks(text.getText().toString());
