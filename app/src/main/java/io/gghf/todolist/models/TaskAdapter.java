@@ -6,6 +6,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.RequiresApi;
 
+import java.util.Map;
+
 public class TaskAdapter extends Task implements Parcelable {
     public Task task;
     public boolean isSelected = false;
@@ -13,18 +15,27 @@ public class TaskAdapter extends Task implements Parcelable {
     public TaskAdapter(Task task){
         this.task = task;
     }
+
     
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator<TaskAdapter>(){
+        @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public TaskAdapter createFromParcel(Parcel parcel) {
-            return null;
+            return new TaskAdapter(parcel);
         }
 
         @Override
         public TaskAdapter[] newArray(int i) {
-            return new TaskAdapter[0];
+            return new TaskAdapter[i];
         }
     };
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    protected TaskAdapter(Parcel in){
+        task = (Task) in.readValue(Task.class.getClassLoader());
+        isSelected = in.readBoolean();
+        showAllCheckBox = in.readBoolean();
+    }
 
     @Override
     public int describeContents() {
@@ -34,7 +45,7 @@ public class TaskAdapter extends Task implements Parcelable {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeValue(task);
+        parcel.writeParcelable(task,PARCELABLE_WRITE_RETURN_VALUE);
         parcel.writeBoolean(isSelected);
         parcel.writeBoolean(showAllCheckBox);
     }

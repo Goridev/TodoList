@@ -36,6 +36,7 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
     private Spinner state;
 
     private ImageView trashTask;
+    private ImageView calendarTask;
     private ImageView reminderTask;
     private ImageView editTask;
 
@@ -91,6 +92,7 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
         trashTask = root.findViewById(R.id.details_trash_task);
         editTask = root.findViewById(R.id.details_edit_task);
         reminderTask = root.findViewById(R.id.details_reminder_task);
+        calendarTask = root.findViewById(R.id.details_calendar_task);
         arrayAdapter = ArrayAdapter.createFromResource(getContext(),R.array.state_task,R.layout.fragment_dialog_details_spinner_state);
         arrayAdapter.setDropDownViewResource(R.layout.fragment_dialog_details_spinner_state);
         state.setAdapter(arrayAdapter);
@@ -107,6 +109,7 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
         trashTask.setOnClickListener(this);
         reminderTask.setOnClickListener(this);
         editTask.setOnClickListener(this);
+        calendarTask.setOnClickListener(this);
         if(adapter.task.state.length() > 0){
             state.setSelection(arrayAdapter.getPosition(adapter.task.state),true);
         }
@@ -127,9 +130,11 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
     @Override
     public void onClick(View view) {
         switch(view.getId()){
-            case R.id.details_reminder_task:
+            case R.id.details_calendar_task:
                 FragmentDialogDetailsCalendar calendar = FragmentDialogDetailsCalendar.newInstance(adapter);
                 calendar.show(getParentFragmentManager(),"calendar");
+                break;
+            case R.id.details_reminder_task:
                 break;
             case R.id.details_trash_task:
                 taskLiveData.removeTasks(text.getText().toString());

@@ -10,4 +10,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorWhite">#F6F6F6</color>
     <color name="red">#f17580</color>
+    <color name="transaprent">#00000000</color>
 </resources>
