@@ -5,14 +5,13 @@
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="android:popupMenuStyle">@style/popupMenuStyle</item>
-
     </style>
     <style name="BottomSheetDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/bottomSheetBackground</item>
     </style>
 
     <style name="bottomSheetBackground" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bottom_top_rounded</item>
+        <item name="android:background">@drawable/background_gradient_blue</item>
         <item name="behavior_hideable">true</item>
     </style>
     <style name="popupMenuStyle" parent="Theme.AppCompat.Light.DarkActionBar">

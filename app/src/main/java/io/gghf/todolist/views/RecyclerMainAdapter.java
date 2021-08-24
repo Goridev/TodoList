@@ -1,6 +1,9 @@
 package io.gghf.todolist.views;
 
 import android.content.Context;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -77,10 +81,11 @@ public class RecyclerMainAdapter extends RecyclerView.Adapter<RecyclerMainAdapte
     @Override
     public void onBindViewHolder(@NonNull RecyclerMainAdapter.RecyclerMainViewHolder holder,int position) {
         try{
+            Spanned span = HtmlCompat.fromHtml(binding.get(position).task.getText(),HtmlCompat.FROM_HTML_MODE_LEGACY);
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             Date jdate = binding.get(position).task.getCreatedDate().toDate();
             holder.titleTask.setText(formattingTitle(binding.get(position).task.getTitle()));
-            holder.textTask.setText(formattingText(binding.get(position).task.getText()));
+            holder.textTask.setText(formattingText(span));
             holder.createdDateTask.setText(sdf.format(jdate));
             holder.stateTask.setText(binding.get(position).task.getState());
             holder.container.setOnClickListener(click -> {
@@ -141,10 +146,10 @@ public class RecyclerMainAdapter extends RecyclerView.Adapter<RecyclerMainAdapte
         }
         return reducer;
     }
-    public String formattingText(String text){
-        String reducer = text;
+    public String formattingText(Spanned text){
+        String reducer = text.toString();
         if(text.length() > 50){
-            reducer = text.substring(0,1).toUpperCase()+text.substring(1,50)+"...";
+            reducer = text.toString().substring(0,1).toUpperCase()+text.toString().substring(1,50)+"...";
         }
         return reducer;
     }

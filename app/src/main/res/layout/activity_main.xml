@@ -12,7 +12,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
         android:visibility="visible"
-        android:backgroundTint="@color/purple_200"
+        android:backgroundTint="@color/blue_600"
         app:borderWidth="0dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_trash"
         android:visibility="invisible"
-        android:backgroundTint="@color/purple_200"
+        android:backgroundTint="@color/red_600"
         app:borderWidth="0dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

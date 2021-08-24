@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         });
-        FragmentDialogBiometric fragmentDialogBiometric = FragmentDialogBiometric.newInstance();
+        FragmentDialogBiometric fragmentDialogBiometric = FragmentDialogBiometric.newInstance(binding.getRoot().getRootView());
         fragmentDialogBiometric.setCancelable(false);
         fragmentDialogBiometric.show(manager,"fingerprintFragment");
     }

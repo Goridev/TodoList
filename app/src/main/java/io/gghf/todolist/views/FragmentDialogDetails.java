@@ -3,6 +3,8 @@ package io.gghf.todolist.views;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -103,7 +106,8 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         title.setText(adapter.task.title);
-        text.setText(adapter.task.text);
+        Spanned span = HtmlCompat.fromHtml(adapter.task.text,HtmlCompat.FROM_HTML_MODE_LEGACY);
+        text.setText(span);
         created_date.setText(taskLiveData.convertTimestamp(adapter.task.createdDate));
         state.setOnItemSelectedListener(this);
         trashTask.setOnClickListener(this);

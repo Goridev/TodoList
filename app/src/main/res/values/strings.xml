@@ -12,6 +12,10 @@
     <string name="generic_state_task_recycler">Generic state</string>
     <string name="some_text"><![CDATA[<h1><i><b>Nouveau Intent</b></i></h1> ]]></string>
     <string name="button_set_calendar">Ajouter aux rappels</string>
+    <string name="generic_italic">italic</string>
+    <string name="generic_underline">underline</string>
+    <string name="generic_bold">bold</string>
+    <string name="generic_item">item</string>
     <string-array name="state_task">
         <item>Todo</item>
         <item>WorkInProgress</item>

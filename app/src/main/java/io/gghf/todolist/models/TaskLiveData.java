@@ -16,6 +16,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.protobuf.Any;
@@ -88,9 +90,14 @@ public class TaskLiveData extends ViewModel {
         return sdf.format(timestamp.toDate());
     }
     private void fetchDBTasks(){
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+                .build();
         db = FirebaseFirestore.getInstance();
+        db.setFirestoreSettings(settings);
         ref = db.collection("TodoList");
-        ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        ref.addSnapshotListener(MetadataChanges.INCLUDE,new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 tasksAdapter.clear();

@@ -5,6 +5,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.RequiresApi;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.util.Map;
 
@@ -12,6 +15,7 @@ public class TaskAdapter extends Task implements Parcelable {
     public Task task;
     public boolean isSelected = false;
     public boolean showAllCheckBox = false;
+
     public TaskAdapter(Task task){
         this.task = task;
     }

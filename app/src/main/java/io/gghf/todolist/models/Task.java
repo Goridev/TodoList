@@ -5,6 +5,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.RequiresApi;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.firebase.Timestamp;
 /*
@@ -13,8 +16,8 @@ import com.google.firebase.Timestamp;
 *
 * */
 public class Task implements Parcelable {
-    public String title;
     public String text;
+    public String title;
     public Timestamp createdDate;
     public String state;
 

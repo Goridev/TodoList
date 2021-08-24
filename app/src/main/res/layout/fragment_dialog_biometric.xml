@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/transaprent">
+    android:background="@drawable/transparent">
     <ImageView
         android:id="@+id/fingerprint"
-        android:src="@drawable/fingerprint"
-        android:background="@color/transaprent"
+        android:src="@drawable/fingerprint_add"
+        android:backgroundTint="@color/transparent"
         android:layout_width="@dimen/dimen_65dp"
         android:layout_height="@dimen/dimen_65dp"
-        android:layout_margin="@dimen/dimen_35dp"
+        android:padding="@dimen/dimen_10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
