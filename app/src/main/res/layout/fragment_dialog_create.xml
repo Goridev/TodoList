@@ -37,7 +37,6 @@
             android:layout_marginHorizontal="@dimen/dimen_35dp"
             android:layout_marginBottom="@dimen/dimen_10dp">
             <EditText
-                android:padding="@dimen/dimen_10dp"
                 android:id="@+id/edit_main_create_title"
                 android:hint="@string/edit_main_create_title_hint"
                 android:inputType="text"

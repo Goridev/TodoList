@@ -1,10 +1,11 @@
 package io.gghf.todolist.views;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -12,6 +13,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -30,10 +32,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.text.HtmlCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -46,7 +49,7 @@ import java.util.Calendar;
 import io.gghf.todolist.R;
 import io.gghf.todolist.models.Task;
 
-public class FragmentDialogCreate extends BottomSheetDialogFragment implements View.OnClickListener {
+public class FragmentDialogCreate extends BottomSheetDialogFragment implements View.OnClickListener, FragmentResultListener {
 
     private View root;
     private TextView title;
@@ -54,6 +57,8 @@ public class FragmentDialogCreate extends BottomSheetDialogFragment implements V
     private Button btn;
     private FirebaseFirestore db;
     private CollectionReference ref;
+
+    public FragmentDialogCreate.ContextMenuAdapter adapter;
 
     public static FragmentDialogCreate newInstance() {
         Bundle args = new Bundle();
@@ -91,6 +96,7 @@ public class FragmentDialogCreate extends BottomSheetDialogFragment implements V
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(STYLE_NORMAL,R.style.BottomSheetDialogStyle);
+        getChildFragmentManager().setFragmentResultListener("requestInputBoxText", this,this);
     }
 
     @Nullable
@@ -148,16 +154,15 @@ public class FragmentDialogCreate extends BottomSheetDialogFragment implements V
         }
     }
     private void setPopupMenu(View v){
+        adapter = new FragmentDialogCreate.ContextMenuAdapter(getSelectedText(),getStartIndex(),getEndIndex());
         ListPopupWindow listPopupWindow = new ListPopupWindow(getContext());
         listPopupWindow.setAnchorView(v);
-        listPopupWindow.setAdapter(new FragmentDialogCreate.PopUpAdapter(getSelectedText(),getStartIndex(),getEndIndex()));
+        listPopupWindow.setAdapter(adapter);
         listPopupWindow.setModal(true);
         listPopupWindow.show();
     }
     public void getSpanStyleIndex(Editable e) {
-
         StyleSpan[] ss = e.getSpans(0,e.length(),StyleSpan.class);
-
         for(StyleSpan span : ss){
             int start = e.getSpanStart(span);
             int end = e.getSpanEnd(span);
@@ -185,7 +190,14 @@ public class FragmentDialogCreate extends BottomSheetDialogFragment implements V
     public CharSequence getSelectedText(){
         return text.getText().subSequence(getStartIndex(), getEndIndex());
     }
-    private final class PopUpAdapter extends BaseAdapter {
+
+    @Override
+    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+        Log.d("FragmentDialogCreate -> FragmentResultListener",requestKey);
+        adapter.setSpanText(new URLSpan(result.getString("url")));
+    }
+
+    private final class ContextMenuAdapter extends BaseAdapter {
 
         private View root;
         private ImageView bold;
@@ -194,8 +206,11 @@ public class FragmentDialogCreate extends BottomSheetDialogFragment implements V
         private ImageView strike;
         private ImageView increase;
         private ImageView decrease;
+        private ImageView link;
         private ImageView listBulleted;
         private ImageView listNumbered;
+
+        private ConstraintLayout context_menu_edit;
 
         private CharSequence selectedText;
         private int startIndex;
@@ -206,7 +221,7 @@ public class FragmentDialogCreate extends BottomSheetDialogFragment implements V
 
         private float decreaseSize = 0.5f;
 
-        public PopUpAdapter(CharSequence selectedText,int startIndex,int endIndex) {
+        public ContextMenuAdapter(CharSequence selectedText,int startIndex,int endIndex) {
             this.selectedText = selectedText;
             this.startIndex = startIndex;
             this.endIndex = endIndex;
@@ -221,15 +236,19 @@ public class FragmentDialogCreate extends BottomSheetDialogFragment implements V
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            root = inflater.inflate(R.layout.context_menu_edittext,parent, false);
+            root = inflater.inflate(R.layout.context_menu_edit,parent, false);
             bold = root.findViewById(R.id.bold);
             italic = root.findViewById(R.id.italic);
             underline = root.findViewById(R.id.underline);
             strike = root.findViewById(R.id.strike);
             increase = root.findViewById(R.id.increase_text);
             decrease = root.findViewById(R.id.decrease_text);
+            link = root.findViewById(R.id.link_text);
             listBulleted = root.findViewById(R.id.list_bulleted_text);
             listNumbered = root.findViewById(R.id.list_numbered_text);
+
+
+            context_menu_edit = root.findViewById(R.id.context_menu_edit);
             bold.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -273,18 +292,23 @@ public class FragmentDialogCreate extends BottomSheetDialogFragment implements V
                     setSpanText(new RelativeSizeSpan(decreaseSize));
                 }
             });
-            /*listBulleted.setOnClickListener(new View.OnClickListener() {
+            link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    setSpanText(new RelativeSizeSpan(decreaseSize));
+                    ContextMenuInputBox contextMenuInputBox = ContextMenuInputBox.newInstance();
+                    contextMenuInputBox.show(getChildFragmentManager(),"ContextMenuInputBox");
+                }
+            });
+            listBulleted.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                 }
             });
             listNumbered.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    setSpanText(new RelativeSizeSpan(decreaseSize));
                 }
-            });*/
+            });
             return root;
         }
         public void setSpanText(Object what){

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,6 +109,7 @@ public class FragmentDialogDetails extends DialogFragment implements AdapterView
         title.setText(adapter.task.title);
         Spanned span = HtmlCompat.fromHtml(adapter.task.text,HtmlCompat.FROM_HTML_MODE_LEGACY);
         text.setText(span);
+        text.setMovementMethod(LinkMovementMethod.getInstance());
         created_date.setText(taskLiveData.convertTimestamp(adapter.task.createdDate));
         state.setOnItemSelectedListener(this);
         trashTask.setOnClickListener(this);

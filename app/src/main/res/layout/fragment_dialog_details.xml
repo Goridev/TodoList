@@ -23,6 +23,7 @@
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/generic_task_recycler"
         android:textSize="@dimen/dimen_15sp"
+        android:clickable="true"
         app:layout_constraintTop_toBottomOf="@id/details_title_task"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/details_constraint_edit"

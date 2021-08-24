@@ -16,6 +16,7 @@
     <string name="generic_underline">underline</string>
     <string name="generic_bold">bold</string>
     <string name="generic_item">item</string>
+    <string name="generic_edit_link_text">Link</string>
     <string-array name="state_task">
         <item>Todo</item>
         <item>WorkInProgress</item>

@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.MetadataChanges;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.protobuf.Any;
@@ -97,7 +98,7 @@ public class TaskLiveData extends ViewModel {
         db = FirebaseFirestore.getInstance();
         db.setFirestoreSettings(settings);
         ref = db.collection("TodoList");
-        ref.addSnapshotListener(MetadataChanges.INCLUDE,new EventListener<QuerySnapshot>() {
+        ref.orderBy("createdDate", Query.Direction.ASCENDING).addSnapshotListener(MetadataChanges.INCLUDE,new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 tasksAdapter.clear();
